@@ -1,50 +1,90 @@
 @import url("photographer.css");
 
-body {
-    font-family: "DM Sans", sans-serif;
-    margin: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
 }
 
+body {
+  font-family: "DM Sans", sans-serif;
+}
 
 header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 90px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 5.6rem;
 }
 
 h1 {
-    color: #901C1C;
-    margin-right: 100px;
+  margin-right: 9.4rem;
 }
 
+/* utility  */
+
+/* COLORS */
+.light-brown {
+  color: #d3573c;
+}
+
+.brown {
+  color: #901c1c;
+}
+
+.grey {
+  color: #757575;
+}
+
+/* CSS elements */
+
 .logo {
-    height: 50px;
-    margin-left: 100px;
+  height: 3.1rem;
+  margin-left: 6.3rem;
 }
 
 .photographer_section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
-    margin-top: 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4.4rem;
+  margin-top: 6.3rem;
 }
 
 .photographer_section article {
-    justify-self: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.photographer_section article h2 {
-    color: #D3573C;
-    font-size: 36px;
+.photographer_section div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+
+  & h2 {
+    font-size: 2.2rem;
+  }
+
+  & h3 {
+    font-size: 0.85rem;
+  }
+
+  & h4 {
+    font-size: 0.65rem;
+  }
+
+  & h5 {
+    font-size: 0.55rem;
+  }
 }
 
 .photographer_section article img {
-    height: 200px;
-    width: 200px;
+  height: 12.5rem;
+  width: 12.5rem;
 }
