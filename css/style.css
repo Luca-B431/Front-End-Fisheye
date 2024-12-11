@@ -5,6 +5,7 @@
   margin: 0;
   padding: 0;
   line-height: 1.5;
+  text-decoration: none;
 }
 
 body {
@@ -38,6 +39,10 @@ h1 {
   color: #757575;
 }
 
+.black {
+  color: #000;
+}
+
 /* CSS elements */
 
 .logo {
@@ -53,7 +58,6 @@ h1 {
 }
 
 .photographer_section article {
-  justify-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,6 +73,9 @@ h1 {
 
   & h2 {
     font-size: 2.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & h3 {
@@ -87,4 +94,6 @@ h1 {
 .photographer_section article img {
   height: 12.5rem;
   width: 12.5rem;
+  object-fit: cover;
+  border-radius: 50%;
 }
