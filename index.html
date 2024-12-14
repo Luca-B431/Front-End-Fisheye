@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="src/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
       href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
@@ -12,15 +12,20 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" alt="fisheye logo" />
+      <img
+        src="public/assets/images/logo.png"
+        class="logo"
+        alt="fisheye logo"
+      />
       <h1 class="brown">Nos photographes</h1>
     </header>
     <main id="main">
       <section class="photographer_section"></section>
-
-      <!-- scripts -->
-      <script src="scripts/templates/photographer.js"></script>
-      <script src="scripts/pages/index.js"></script>
     </main>
+
+    <!-- scripts -->
+    <script type="module" src="src/css/scripts/templates/template.js"></script>
+    <script type="module" src="src/css/scripts/pages/index.js"></script>
+    <!-- Déplace ceci ici -->
   </body>
 </html>

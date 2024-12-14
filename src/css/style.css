@@ -1,4 +1,4 @@
-@import url("photographer.css");
+@import url("./src/css/photographer.css");
 
 * {
   box-sizing: border-box;
@@ -6,6 +6,16 @@
   padding: 0;
   line-height: 1.5;
   text-decoration: none;
+}
+
+html {
+  min-height: 100%;
+  width: 100%;
+}
+
+main {
+  min-height: 100%;
+  width: 100%;
 }
 
 body {
@@ -52,7 +62,7 @@ h1 {
 
 .photographer_section {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 4.4rem;
   margin-top: 6.3rem;
 }

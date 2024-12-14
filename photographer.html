@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="src/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./src/css/photographer.css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
@@ -16,18 +17,14 @@
     </header>
 
     <!-- !! -->
-    <main id="main">
-      <section class="photograph-header">
-        <button class="contact_button">Contactez-moi</button>
-      </section>
-    </main>
+    <main id="main"></main>
 
     <!-- !! -->
     <div id="contact_modal">
       <div class="modal">
         <header>
           <h2>Contactez-moi</h2>
-          <img id="close-cross" src="assets/icons/close.svg" />
+          <img id="close-cross" src="public/assets/icons/close.svg" />
         </header>
         <form>
           <div>
@@ -40,7 +37,8 @@
     </div>
 
     <!-- !! -->
-    <script src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
+    <script type="module" src="src/css/scripts/pages/photographer.js"></script>
+    <script type="module" src="src/css/scripts/pages/index.js"></script>
+    <script type="module" src="src/css/scripts/utils/contactForm.js"></script>
   </body>
 </html>
