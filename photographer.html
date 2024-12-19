@@ -2,6 +2,7 @@
 <html>
   <head>
     <link href="src/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="src/css/photographer.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./src/css/photographer.css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -9,15 +10,49 @@
       href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
       rel="stylesheet"
     />
-    <title>Fisheye - photographe</title>
+    <title>Fisheye - Photographe</title>
   </head>
-  <body>
+  <body id="body">
     <header>
       <img src="assets/images/logo.png" class="logo" />
     </header>
 
     <!-- !! -->
-    <main id="main"></main>
+    <main id="main">
+      <section id="photograph-header"></section>
+
+      <!-- !! -->
+      <section id="filter-section" class="filter-section">
+        <span> Trier par : </span>
+        <div class="menu-container">
+          <button id="filter-button" class="filter-button">
+            <span> Popularité </span>
+            <img
+              class="vector"
+              src="public/assets/icons/vector.svg"
+              alt="flèche menu déroulant"
+            />
+          </button>
+          <div id="dropdown-menu" class="dropdown-menu hide">
+            <button class="dropdown-button" type="button">
+              Popularité
+              <img
+                class="vector vector-rotation"
+                src="public/assets/icons/vector.svg"
+                alt="flèche menu déroulant"
+              />
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-button" type="button">Dates</button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-button" type="button">Titres</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- !! -->
+      <section id="media-section"></section>
+    </main>
 
     <!-- !! -->
     <div id="contact_modal">
@@ -28,8 +63,14 @@
         </header>
         <form>
           <div>
-            <label>Prénom</label>
-            <input />
+            <label for="name">Prénom :</label>
+            <input type="text" id="name" />
+            <label for="lastname">Nom :</label>
+            <input type="text" id="lastname" />
+            <label for="email">Email :</label>
+            <input type="email" id="email" />
+            <label for="message"> Votre message :</label>
+            <textarea id="message" rows="4" cols="46"> </textarea>
           </div>
           <button class="contact_button">Envoyer</button>
         </form>
@@ -37,8 +78,8 @@
     </div>
 
     <!-- !! -->
-    <script type="module" src="src/css/scripts/pages/photographer.js"></script>
-    <script type="module" src="src/css/scripts/pages/index.js"></script>
     <script type="module" src="src/css/scripts/utils/contactForm.js"></script>
+    <script type="module" src="src/css/scripts/templates/template.js"></script>
+    <script type="module" src="src/css/scripts/pages/photographer.js"></script>
   </body>
 </html>

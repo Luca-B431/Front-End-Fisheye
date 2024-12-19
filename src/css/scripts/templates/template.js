@@ -1,3 +1,5 @@
+import { displayModal, closeModal } from "../utils/contactForm";
+
 /**
  * @typedef {Object} Media
  * @property {number} id - L'ID du média.
@@ -35,7 +37,7 @@ export function photographerTemplate(data) {
    * @returns {HTMLElement} L'élément `<a>` contenant les informations du photographe.
    */
   function getUserCardDOM() {
-    const aLink = document.createElement("a");
+    const aCArd = document.createElement("a");
     const article = document.createElement("article");
     const img = document.createElement("img");
     const div = document.createElement("div");
@@ -52,9 +54,9 @@ export function photographerTemplate(data) {
     const h5 = document.createElement("h5");
     h5.textContent = `${price}€/jour`;
     h5.classList.add("grey");
-    aLink.appendChild(article);
-    aLink.setAttribute("href", `photographer.html?id=${id}`);
-    aLink.setAttribute("aria-label", `Voir le profil de ${name}`);
+    aCArd.appendChild(article);
+    aCArd.setAttribute("href", `photographer.html?id=${id}`);
+    aCArd.setAttribute("aria-label", `Voir le profil de ${name}`);
     article.appendChild(img);
     article.appendChild(div);
     div.appendChild(h2);
@@ -62,7 +64,7 @@ export function photographerTemplate(data) {
     div.appendChild(h4);
     div.appendChild(h5);
 
-    return aLink;
+    return aCArd;
   }
 
   /**
@@ -71,34 +73,37 @@ export function photographerTemplate(data) {
    * @returns {HTMLElement} L'élément `<section>` contenant l'en-tête du profil.
    */
   function getHeaderCardDOM() {
-    const photographHeader = document.createElement("section");
+    const photographHeader = document.getElementById("photograph-header");
     photographHeader.classList.add("photograph-header");
 
     const textDiv = document.createElement("div");
     textDiv.classList.add("text-div");
 
     const contactButton = document.createElement("button");
-    contactButton.classList.add("contact_button");
+    const closeCross = document.getElementById("close-cross");
+    contactButton.setAttribute("id", "contact_button");
     contactButton.textContent = "Contactez-moi";
+    contactButton.addEventListener("click", displayModal);
+    closeCross.addEventListener("click", closeModal);
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
     img.classList.add("header-img");
 
+    const h1 = document.createElement("h1");
+    h1.textContent = name;
+    h1.classList.add("light-brown");
     const h2 = document.createElement("h2");
-    h2.textContent = name;
-    h2.classList.add("light-brown");
+    h2.textContent = `${city}, ${country}`;
+    h2.classList.add("brown");
     const h3 = document.createElement("h3");
-    h3.textContent = `${city}, ${country}`;
-    h3.classList.add("brown");
-    const h4 = document.createElement("h4");
-    h4.textContent = tagline;
-    h4.classList.add("grey");
+    h3.textContent = tagline;
+    h3.classList.add("grey");
 
     photographHeader.appendChild(textDiv);
+    textDiv.appendChild(h1);
     textDiv.appendChild(h2);
     textDiv.appendChild(h3);
-    textDiv.appendChild(h4);
     photographHeader.appendChild(contactButton);
     photographHeader.appendChild(img);
 
@@ -123,31 +128,46 @@ export function photographerTemplate(data) {
      */
 
     // Crée un élément <a> pour l'article du média
-    const aLink = document.createElement("a");
-    aLink.classList.add("a");
+    const aCArd = document.createElement("a");
+    aCArd.setAttribute("href", media);
+    aCArd.classList.add("a");
 
     // Crée une section pour les informations du média (titre et likes)
     const mediaTextDiv = document.createElement("div");
     mediaTextDiv.classList.add("media-textdiv");
 
+    const likeDiv = document.createElement("div");
+    likeDiv.classList.add("like-div");
+    const aLike = document.createElement("a");
+    aLike.setAttribute("href", "#");
+
     // Crée un titre h2 pour afficher le titre du média
-    const h2 = document.createElement("h2");
-    h2.textContent = media.title;
-    h2.classList.add("light-brown");
+    const h4 = document.createElement("h4");
+    h4.textContent = media.title;
+    h4.classList.add("brown");
 
     // Crée un sous-titre h3 pour afficher le nombre de likes du média
-    const h3 = document.createElement("h3");
-    h3.textContent = media.likes;
-    h3.classList.add("black");
+    const h5 = document.createElement("h5");
+    h5.textContent = media.likes;
+    h5.classList.add("brown");
 
-    aLink.appendChild(article);
+    const heartSVG = document.createElement("object");
+    heartSVG.setAttribute("type", "image/svg+xml");
+    heartSVG.setAttribute("data", "assets/icons/heart.svg");
+    heartSVG.setAttribute("width", "17");
+    heartSVG.setAttribute("height", "18");
+
+    aCArd.appendChild(article);
     article.appendChild(mediaTextDiv);
     article.classList.add("article");
-    mediaTextDiv.appendChild(h2);
-    mediaTextDiv.appendChild(h3);
+    mediaTextDiv.appendChild(h4);
+    mediaTextDiv.appendChild(aLike);
+    aLike.appendChild(likeDiv);
+    likeDiv.appendChild(h5);
+    likeDiv.appendChild(heartSVG);
 
     // Retourne l'élément <a> contenant l'article avec l'image ou la vidéo
-    return aLink;
+    return aCArd;
   }
 
   return {

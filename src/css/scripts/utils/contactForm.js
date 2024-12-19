@@ -1,15 +1,14 @@
-const contactButton = document.querySelector(".contact_button");
-const closeCross = document.getElementById("close-cross");
-
-function displayModal() {
+export function displayModal() {
   const modal = document.getElementById("contact_modal");
+  const main = document.getElementById("main");
   modal.style.display = "block";
+  main.style.filter = "blur(10px)";
 }
 
-function closeModal() {
+export function closeModal() {
   const modal = document.getElementById("contact_modal");
+  const main = document.getElementById("main");
   modal.style.display = "none";
+  main.style.filter = "blur(0px)";
+  main.removeAttribute("style");
 }
-
-contactButton.addEventListener("click", () => displayModal());
-closeCross.addEventListener("click", () => closeModal());

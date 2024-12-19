@@ -104,6 +104,30 @@ function getVideoOrImg(media) {
   }
 }
 
+function showDropdownMenu() {
+  const button = document.getElementById("filter-button");
+  const dropdown = document.getElementById("dropdown-menu");
+
+  button.addEventListener("click", () => {
+    dropdown.classList.toggle("hide");
+  });
+
+  window.addEventListener("click", (e) => {
+    if (!button.contains(e.target) && !dropdown.classList.contains("hide")) {
+      dropdown.classList.toggle("hide");
+    }
+  });
+
+  const filterButtons = document.querySelectorAll(".dropdown-button");
+  const span = document.querySelector("#filter-button span");
+
+  filterButtons.forEach((element) => {
+    element.addEventListener("click", (event) => {
+      span.textContent = event.target.textContent;
+    });
+  });
+}
+
 /**
  * Fonction asynchrone pour afficher les données du photographe et insérer le contenu dans le DOM.
  * @async
@@ -115,11 +139,9 @@ async function displayPhotographData() {
   const photographers = await getPhotographers(); // Récupère les données des photographes
   const mediaArray = photographers.media; // Récupère les données des médias
 
-  const mediaForThisPhotographer = mediaArray.filter(
+  const mediaOfThisPhotographer = mediaArray.filter(
     (eachMediaItem) => eachMediaItem.photographerId === photographID
   );
-
-  console.log(mediaForThisPhotographer);
 
   // Trouve les données du photographe correspondant à l'ID
   const thisPhotographer = photographers.photographers.find(
@@ -127,23 +149,21 @@ async function displayPhotographData() {
   );
 
   if (thisPhotographer) {
-    // Insère les données dans le DOM si le photographe est trouvé
-    const main = document.getElementById("main");
     const impFunction = photographerTemplate(thisPhotographer);
-    // create section
+    impFunction.getHeaderCardDOM();
 
-    const headerDOM = impFunction.getHeaderCardDOM();
-    main.appendChild(headerDOM);
+    showDropdownMenu();
 
-    const mediaSection = document.createElement("section");
-    main.appendChild(mediaSection);
+    // media section DOM creaction part
+    const mediaSection = document.getElementById("media-section");
     mediaSection.classList.add("media-section");
 
-    mediaForThisPhotographer.forEach((mediaItem) => {
+    mediaOfThisPhotographer.forEach((mediaItem) => {
       let link = getVideoOrImg(mediaItem);
       const mediaCard = impFunction.getMediaArticle(
         mediaItem,
-        isTheMediaImgOrVideo(link, thisPhotographer.id)
+        isTheMediaImgOrVideo(link, thisPhotographer.id),
+        getVideoOrImg(mediaItem)
       );
       mediaSection.appendChild(mediaCard);
     });
