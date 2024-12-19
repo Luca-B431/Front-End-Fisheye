@@ -75,6 +75,7 @@ export function photographerTemplate(data) {
   function getHeaderCardDOM() {
     const photographHeader = document.getElementById("photograph-header");
     photographHeader.classList.add("photograph-header");
+    photographHeader.innerHTML = "";
 
     const textDiv = document.createElement("div");
     textDiv.classList.add("text-div");

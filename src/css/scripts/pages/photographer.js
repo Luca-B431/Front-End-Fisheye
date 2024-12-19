@@ -1,5 +1,7 @@
 import { photographerTemplate } from "../templates/template";
 
+let cache = null;
+
 /**
  * @typedef {Object} Photographer
  * @property {string} name - Le nom du photographe.
@@ -37,6 +39,10 @@ import { photographerTemplate } from "../templates/template";
  *   - "media" : un tableau d'objets représentant les médias associés aux photographes.
  */
 async function getPhotographers() {
+  if (cache) {
+    return cache;
+  }
+
   // Envoie une requête pour récupérer le fichier JSON contenant les données des photographes et des médias
   const request = await fetch("./public/data/photographers.json");
 
@@ -45,6 +51,8 @@ async function getPhotographers() {
    * @type {PhotographersData}
    */
   const data = await request.json();
+
+  cache = data;
 
   return data;
 }
@@ -104,6 +112,69 @@ function getVideoOrImg(media) {
   }
 }
 
+function sortMedias(mediaArray) {
+  const buttonSpan = document.querySelector("#filter-button span");
+  const value = buttonSpan.textContent.trim();
+
+  if (value === "Popularité") {
+    mediaArray.sort((a, b) => b.likes - a.likes); // Trier par likes (du plus élevé au plus bas)
+  }
+
+  if (value === "Dates") {
+    mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date (du plus récent au plus ancien)
+  }
+
+  if (value === "Titres") {
+    mediaArray.sort((a, b) => a.title.localeCompare(b.title)); // Trier par titre (ordre alphabétique)
+  }
+
+  console.log("Après le tri:", mediaArray);
+
+  return mediaArray;
+}
+
+/**
+ * Fonction asynchrone pour afficher les données du photographe et insérer le contenu dans le DOM.
+ * @async
+ * @function displayPhotographData
+ * @returns {void}
+ */
+async function displayPhotographData() {
+  const photographID = getID(); // Récupère l'ID du photographe depuis l'URL
+  const photographers = await getPhotographers(); // Récupère les données des photographes
+  const mediaArray = photographers.media; // Récupère les données des médias
+
+  const mediaOfThisPhotographer = mediaArray.filter(
+    (eachMediaItem) => eachMediaItem.photographerId === photographID
+  );
+  // Trouve les données du photographe correspondant à l'ID
+  const thisPhotographer = photographers.photographers.find(
+    (photograph) => photograph.id === photographID
+  );
+
+  if (thisPhotographer) {
+    const impFunction = photographerTemplate(thisPhotographer);
+    impFunction.getHeaderCardDOM();
+
+    // media section DOM creaction part
+    const mediaSection = document.getElementById("media-section");
+    mediaSection.classList.add("media-section");
+
+    mediaSection.innerHTML = "";
+
+    const sorted = sortMedias(mediaOfThisPhotographer);
+    sorted.forEach((mediaItem) => {
+      let link = getVideoOrImg(mediaItem);
+      const mediaCard = impFunction.getMediaArticle(
+        mediaItem,
+        isTheMediaImgOrVideo(link, thisPhotographer.id),
+        getVideoOrImg(mediaItem)
+      );
+      mediaSection.appendChild(mediaCard);
+    });
+  }
+}
+
 function showDropdownMenu() {
   const button = document.getElementById("filter-button");
   const dropdown = document.getElementById("dropdown-menu");
@@ -124,51 +195,10 @@ function showDropdownMenu() {
   filterButtons.forEach((element) => {
     element.addEventListener("click", (event) => {
       span.textContent = event.target.textContent;
+      displayPhotographData();
     });
   });
 }
-
-/**
- * Fonction asynchrone pour afficher les données du photographe et insérer le contenu dans le DOM.
- * @async
- * @function displayPhotographData
- * @returns {void}
- */
-async function displayPhotographData() {
-  const photographID = getID(); // Récupère l'ID du photographe depuis l'URL
-  const photographers = await getPhotographers(); // Récupère les données des photographes
-  const mediaArray = photographers.media; // Récupère les données des médias
-
-  const mediaOfThisPhotographer = mediaArray.filter(
-    (eachMediaItem) => eachMediaItem.photographerId === photographID
-  );
-
-  // Trouve les données du photographe correspondant à l'ID
-  const thisPhotographer = photographers.photographers.find(
-    (photograph) => photograph.id === photographID
-  );
-
-  if (thisPhotographer) {
-    const impFunction = photographerTemplate(thisPhotographer);
-    impFunction.getHeaderCardDOM();
-
-    showDropdownMenu();
-
-    // media section DOM creaction part
-    const mediaSection = document.getElementById("media-section");
-    mediaSection.classList.add("media-section");
-
-    mediaOfThisPhotographer.forEach((mediaItem) => {
-      let link = getVideoOrImg(mediaItem);
-      const mediaCard = impFunction.getMediaArticle(
-        mediaItem,
-        isTheMediaImgOrVideo(link, thisPhotographer.id),
-        getVideoOrImg(mediaItem)
-      );
-      mediaSection.appendChild(mediaCard);
-    });
-  }
-}
-
 // Appelle la fonction principale pour afficher les données
 displayPhotographData();
+showDropdownMenu();
