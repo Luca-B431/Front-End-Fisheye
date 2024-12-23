@@ -128,29 +128,24 @@ export function photographerTemplate(data) {
      * @returns {string} - Le HTML pour l'élément <img> ou <video> en fonction de l'extension du fichier.
      */
 
-    // Crée un élément <a> pour l'article du média
-    const aCArd = document.createElement("a");
-    aCArd.setAttribute("href", media);
-    aCArd.classList.add("a");
-
     // Crée une section pour les informations du média (titre et likes)
     const mediaTextDiv = document.createElement("div");
     mediaTextDiv.classList.add("media-textdiv");
 
-    const likeDiv = document.createElement("div");
-    likeDiv.classList.add("like-div");
-    const aLike = document.createElement("a");
-    aLike.setAttribute("href", "#");
+    const buttonLike = document.createElement("button");
+    buttonLike.setAttribute("type", "button");
+    buttonLike.classList.add("button-like");
 
     // Crée un titre h2 pour afficher le titre du média
-    const h4 = document.createElement("h4");
-    h4.textContent = media.title;
-    h4.classList.add("brown");
+    const titleLink = document.createElement("a");
+    titleLink.setAttribute("href", "#");
+    titleLink.textContent = media.title;
+    titleLink.classList.add("brown");
 
     // Crée un sous-titre h3 pour afficher le nombre de likes du média
-    const h5 = document.createElement("h5");
-    h5.textContent = media.likes;
-    h5.classList.add("brown");
+    const likesValue = document.createElement("span");
+    likesValue.textContent = media.likes;
+    likesValue.classList.add("brown");
 
     const heartSVG = document.createElement("object");
     heartSVG.setAttribute("type", "image/svg+xml");
@@ -158,17 +153,15 @@ export function photographerTemplate(data) {
     heartSVG.setAttribute("width", "17");
     heartSVG.setAttribute("height", "18");
 
-    aCArd.appendChild(article);
     article.appendChild(mediaTextDiv);
     article.classList.add("article");
-    mediaTextDiv.appendChild(h4);
-    mediaTextDiv.appendChild(aLike);
-    aLike.appendChild(likeDiv);
-    likeDiv.appendChild(h5);
-    likeDiv.appendChild(heartSVG);
+    mediaTextDiv.appendChild(titleLink);
+    mediaTextDiv.appendChild(buttonLike);
+    buttonLike.appendChild(likesValue);
+    buttonLike.appendChild(heartSVG);
 
     // Retourne l'élément <a> contenant l'article avec l'image ou la vidéo
-    return aCArd;
+    return article;
   }
 
   return {
