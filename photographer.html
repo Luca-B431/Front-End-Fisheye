@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="src/css/style.css" rel="stylesheet" type="text/css" />
     <link href="./src/css/photographer.css" rel="stylesheet" type="text/css" />
@@ -12,28 +12,53 @@
     <title>Fisheye - Photographe</title>
   </head>
   <body id="body">
-    <header>
-      <img src="assets/images/logo.png" class="logo" />
+    <header role="banner">
+      <img src="assets/images/logo.png" class="logo" alt="Logo de Fisheye" />
     </header>
 
     <!-- !! -->
-    <main id="main">
-      <section id="photograph-header"></section>
+    <main
+      id="main"
+      role="main"
+      tabindex="-1"
+      aria-labelledby="photograph-header"
+    >
+      <section id="photograph-header" aria-live="polite"></section>
 
-      <!-- !! -->
-      <section id="filter-section" class="filter-section">
-        <span> Trier par : </span>
+      <section
+        id="filter-section"
+        class="filter-section"
+        aria-labelledby="filter-label"
+        aria-live="polite"
+      >
+        <span id="filter-label">Trier par :</span>
         <div class="menu-container">
-          <button id="filter-button" class="filter-button">
+          <button
+            id="filter-button"
+            class="filter-button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="dropdown-menu"
+          >
             <span> Popularité </span>
             <img
               class="button-vector"
               src="public/assets/icons/vector.svg"
-              alt="flèche menu déroulant"
+              alt="icône flèche menu déroulant"
             />
           </button>
-          <div id="dropdown-menu" class="dropdown-menu hide">
-            <button class="dropdown-button" type="button">
+          <div
+            id="dropdown-menu"
+            class="dropdown-menu hide"
+            role="listbox"
+            aria-hidden="true"
+          >
+            <button
+              class="dropdown-button"
+              type="button"
+              role="option"
+              aria-selected="true"
+            >
               Popularité
               <img
                 class="vector vector-rotation"
@@ -42,22 +67,25 @@
               />
             </button>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-button" type="button">Date</button>
+            <button class="dropdown-button" type="button" role="option">
+              Date
+            </button>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-button" type="button">Titre</button>
+            <button class="dropdown-button" type="button" role="option">
+              Titre
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- !! -->
-      <section id="media-section"></section>
+      <section id="media-section" aria-live="polite"></section>
     </main>
 
     <!-- !! -->
-    <div id="contact_modal">
+    <div id="contact_modal" class="modal-overlay">
       <div class="modal">
         <header>
-          <h2>Contactez-moi</h2>
+          <h2></h2>
           <img id="close-cross" src="public/assets/icons/close.svg" />
         </header>
         <form>
@@ -69,7 +97,7 @@
             <label for="email">Email :</label>
             <input type="email" id="email" />
             <label for="message"> Votre message :</label>
-            <textarea id="message" rows="4" cols="46"> </textarea>
+            <textarea id="message" rows="4" cols="79"> </textarea>
           </div>
           <button class="contact_button">Envoyer</button>
         </form>

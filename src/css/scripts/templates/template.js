@@ -84,8 +84,14 @@ export function photographerTemplate(data) {
     const closeCross = document.getElementById("close-cross");
     contactButton.setAttribute("id", "contact_button");
     contactButton.textContent = "Contactez-moi";
-    contactButton.addEventListener("click", displayModal);
-    closeCross.addEventListener("click", closeModal);
+
+    contactButton.addEventListener("click", () => {
+      displayModal(name);
+    });
+
+    closeCross.addEventListener("click", () => {
+      closeModal(name);
+    });
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
@@ -141,8 +147,9 @@ export function photographerTemplate(data) {
     titleLink.setAttribute("href", "#");
     titleLink.textContent = media.title;
     titleLink.classList.add("brown");
+    titleLink.classList.add("media-title");
 
-    // Crée un sous-titre h3 pour afficher le nombre de likes du média
+    // Crée un sous-titre h3 pour afficher le nombr de likes du média
     let likesValue = document.createElement("span");
     likesValue.textContent = media.likes;
     likesValue.classList.add("brown");

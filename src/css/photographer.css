@@ -190,12 +190,9 @@
   gap: 5px;
 }
 
-/* MODAL */
+/* MODAL CONTACT */
 
 .modal {
-  position: fixed;
-  top: 10px;
-  left: 25%;
   border-radius: 5px;
   background-color: #db8876;
   width: 50%;
@@ -206,11 +203,26 @@
   padding: 10px 35px;
   margin: auto;
   pointer-events: auto;
+  overflow: hidden;
+}
+
+.modal-overlay {
+  padding: 16px 0px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  visibility: visible;
 }
 
 .modal header {
   justify-content: space-between;
   width: 100%;
+  height: 100%;
 }
 
 .modal header img {
@@ -218,9 +230,19 @@
 }
 
 .modal header h2 {
-  font-size: 64px;
+  font-size: 48px;
   font-weight: normal;
-  text-align: center;
+  margin: 20px 150px 0px 0px;
+}
+
+.modal button {
+  border: none;
+  background: transparent;
+  background-color: #901c1c;
+  color: #fff;
+  width: 170px;
+  height: 69px;
+  border-radius: 5px;
 }
 
 /* FORM */
@@ -230,6 +252,7 @@ form {
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 form label {
@@ -323,8 +346,10 @@ footer {
   bottom: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: 32px;
   align-items: center;
+  font-size: 24px;
   width: 376px;
   height: 69px;
   padding: 21px 31px;

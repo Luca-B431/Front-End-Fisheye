@@ -18,10 +18,14 @@
         class="logo"
         alt="fisheye logo"
       />
-      <h1 class="brown">Nos photographes</h1>
+      <h1 class="brown" aria-label="Nos photographes">Nos photographes</h1>
     </header>
-    <main id="main">
-      <section class="photographer_section"></section>
+    <main id="main" tabindex="-1" role="main" aria-labelledby="main-title">
+      <section
+        class="photographer_section"
+        aria-live="polite"
+        aria-busy="false"
+      ></section>
     </main>
 
     <!-- scripts -->

@@ -202,12 +202,18 @@ function showDropdownMenu() {
   const dropdown = document.getElementById("dropdown-menu");
 
   button.addEventListener("click", () => {
-    dropdown.classList.toggle("hide");
+    const hidden = dropdown.classList.toggle("hide");
+
+    // ARIA
+    button.setAttribute("aria-expanded", !hidden);
   });
 
   window.addEventListener("click", (e) => {
     if (!button.contains(e.target) && !dropdown.classList.contains("hide")) {
       dropdown.classList.toggle("hide");
+
+      // ARIA
+      button.setAttribute("aria-expanded", false);
     }
   });
 
@@ -231,31 +237,39 @@ function displayLightboxModal() {
 
   let index = 0;
 
-  // je veux tout les a du grid
-  const articles = document.querySelectorAll("#media-section .article-link");
-
-  // je veux écouter les clicks sur tout les a
+  const articles = document.querySelectorAll("#media-section article");
 
   articles.forEach((article, i) => {
-    article.addEventListener("click", (e) => {
+    const mediaLink = article.querySelector(".article-link");
+    const mediaTitle = article.querySelector(".media-title");
+
+    const clickListener = (e) => {
       e.preventDefault();
 
       // index prends l'index de l'article
       index = i;
 
-      let media = article.querySelector(".article-media");
-      let clone = media.cloneNode(true);
+      const media = article.querySelector(".article-media");
+      const title = mediaTitle.textContent;
+      let cloneMedia = media.cloneNode(true);
 
-      if (clone.tagName === "VIDEO") {
-        clone.setAttribute("controls", "");
+      if (cloneMedia.tagName === "VIDEO") {
+        cloneMedia.setAttribute("controls", "");
       }
 
-      mediaDiv.appendChild(clone);
+      mediaDiv.appendChild(cloneMedia);
+      let titleClone = document.createElement("span");
+      titleClone.textContent = title;
+      titleClone.classList.add("brown");
+      mediaDiv.appendChild(titleClone);
 
       lightboxModal.classList.remove("hide");
       footer.classList.add("hide");
       body.classList.add("no-scroll");
-    });
+    };
+
+    mediaLink.addEventListener("click", clickListener);
+    mediaTitle.addEventListener("click", clickListener);
   });
 
   // écoute de la croix pour fermer la lightbox
@@ -275,6 +289,8 @@ function displayLightboxModal() {
     index = (index + value + articles.length) % articles.length;
 
     const newMedia = articles[index].querySelector(".article-media");
+    const newTitle = articles[index].querySelector(".media-title");
+
     if (newMedia) {
       mediaDiv.innerHTML = "";
       const clonedMedia = newMedia.cloneNode(true);
@@ -285,6 +301,13 @@ function displayLightboxModal() {
       }
 
       mediaDiv.appendChild(clonedMedia);
+    }
+
+    if (newTitle) {
+      let cloneTitle = document.createElement("span");
+      cloneTitle.textContent = newTitle.textContent;
+      cloneTitle.classList.add("brown");
+      mediaDiv.appendChild(cloneTitle);
     }
   }
 
