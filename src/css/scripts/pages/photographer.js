@@ -92,11 +92,11 @@ function isTheMediaImgOrVideo(link, id) {
     const video = document.createElement("video");
     const source = document.createElement("source");
     video.classList.add("article-media");
-    video.setAttribute("controls", "true");
     video.classList.add("video-click");
     source.setAttribute("type", `video/mp4`);
     video.appendChild(source);
     source.setAttribute("src", `public/assets/photographers/${id}/${link}`);
+    source.classList.add("lightbox-display");
     article.appendChild(videoLink);
     videoLink.setAttribute("href", "#");
     videoLink.appendChild(video);
@@ -129,15 +129,25 @@ function sortMedias(mediaArray) {
     mediaArray.sort((a, b) => b.likes - a.likes); // Trier par likes (du plus élevé au plus bas)
   }
 
-  if (value === "Dates") {
+  if (value === "Date") {
     mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date (du plus récent au plus ancien)
   }
 
-  if (value === "Titres") {
+  if (value === "Titre") {
     mediaArray.sort((a, b) => a.title.localeCompare(b.title)); // Trier par titre (ordre alphabétique)
   }
 
   return mediaArray;
+}
+
+let compteurLikes = 0;
+
+function displayFooter(photograph) {
+  const ftrLikes = document.getElementById("ftr-likes");
+  ftrLikes.textContent = `${compteurLikes}`;
+
+  const ftrPrice = document.getElementById("ftr-price");
+  ftrPrice.textContent = `${photograph.price}€ / jour`;
 }
 
 /**
@@ -178,11 +188,13 @@ async function displayPhotographData() {
         isTheMediaImgOrVideo(link, thisPhotographer.id),
         getVideoOrImg(mediaItem)
       );
+      compteurLikes += mediaItem.likes;
       mediaSection.appendChild(mediaCard);
     });
   }
 
   displayLightboxModal();
+  displayFooter(thisPhotographer);
 }
 
 function showDropdownMenu() {
@@ -206,6 +218,7 @@ function showDropdownMenu() {
     element.addEventListener("click", (event) => {
       span.textContent = event.target.textContent;
       displayPhotographData();
+      compteurLikes = 0;
     });
   });
 }
@@ -214,61 +227,87 @@ function displayLightboxModal() {
   const lightboxModal = document.getElementById("lightbox-modal");
   const body = document.getElementById("body");
   const mediaDiv = document.getElementById("media");
+  const footer = document.getElementById("footer");
 
   let index = 0;
 
   // je veux tout les a du grid
-  const articles = document.querySelectorAll("#media-section a");
-  console.log(articles);
+  const articles = document.querySelectorAll("#media-section .article-link");
 
   // je veux écouter les clicks sur tout les a
 
-  articles.forEach((article, i) =>
+  articles.forEach((article, i) => {
     article.addEventListener("click", (e) => {
       e.preventDefault();
 
       // index prends l'index de l'article
       index = i;
 
-      // affiche la lightbox si clique sur un des liens
-      const mediaDOM = article.querySelector(".article-media");
-      mediaDiv.appendChild(mediaDOM.cloneNode());
-      lightboxModal.classList.remove("hide");
-      body.classList.add("no-scroll");
+      let media = article.querySelector(".article-media");
+      let clone = media.cloneNode(true);
 
-      // écoute de la croix pour fermer la lightbox
-      const cross = document.querySelector(".close-cross");
-      cross.addEventListener("click", () => {
-        if (lightboxModal) {
-          body.classList.remove("no-scroll");
-          lightboxModal.classList.add("hide");
-          mediaDiv.innerHTML = "";
-        }
-      });
-
-      function carouselChange(value) {
-        index = (index + value + articles.length) % articles.length;
-
-        const newMedia = articles[index].querySelector(".article-media");
-        if (newMedia) {
-          mediaDiv.innerHTML = "";
-          mediaDiv.appendChild(newMedia.cloneNode(true));
-        }
+      if (clone.tagName === "VIDEO") {
+        clone.setAttribute("controls", "");
       }
 
-      // écoute des flèches du caroussel
-      const leftArrow = document.querySelector(".left-vector");
-      const rightArrow = document.querySelector(".right-vector");
+      mediaDiv.appendChild(clone);
 
-      leftArrow.addEventListener("click", () => {
-        carouselChange(-2);
-      });
+      lightboxModal.classList.remove("hide");
+      footer.classList.add("hide");
+      body.classList.add("no-scroll");
+    });
+  });
 
-      rightArrow.addEventListener("click", () => {
-        carouselChange(2);
-      });
-    })
-  );
+  // écoute de la croix pour fermer la lightbox
+  const cross = document.querySelector(".close-cross");
+  const videoControls = document.querySelector(".video-click");
+  cross.addEventListener("click", () => {
+    if (lightboxModal) {
+      body.classList.remove("no-scroll");
+      lightboxModal.classList.add("hide");
+      footer.classList.remove("hide");
+      mediaDiv.innerHTML = "";
+      videoControls.removeAttribute("controls");
+    }
+  });
+
+  function carouselChange(value) {
+    index = (index + value + articles.length) % articles.length;
+
+    const newMedia = articles[index].querySelector(".article-media");
+    if (newMedia) {
+      mediaDiv.innerHTML = "";
+      const clonedMedia = newMedia.cloneNode(true);
+
+      // vérification des controls sur le retour sur la vidéo dans le caroussel
+      if (clonedMedia.tagName === "VIDEO") {
+        clonedMedia.setAttribute("controls", "");
+      }
+
+      mediaDiv.appendChild(clonedMedia);
+    }
+  }
+
+  // écoute des flèches du caroussel
+  const leftArrow = document.querySelector(".left-vector");
+  const rightArrow = document.querySelector(".right-vector");
+
+  leftArrow.addEventListener("click", () => {
+    carouselChange(-1);
+  });
+
+  rightArrow.addEventListener("click", () => {
+    carouselChange(1);
+  });
+
+  // Écoute des événements clavier
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      carouselChange(-1);
+    } else if (e.key === "ArrowRight") {
+      carouselChange(1);
+    }
+  });
 }
 
 // Appelle la fonction principale pour afficher les données

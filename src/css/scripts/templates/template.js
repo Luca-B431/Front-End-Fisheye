@@ -143,9 +143,10 @@ export function photographerTemplate(data) {
     titleLink.classList.add("brown");
 
     // Crée un sous-titre h3 pour afficher le nombre de likes du média
-    const likesValue = document.createElement("span");
+    let likesValue = document.createElement("span");
     likesValue.textContent = media.likes;
     likesValue.classList.add("brown");
+    likesValue.classList.add("span-value");
 
     const heartSVG = document.createElement("object");
     heartSVG.setAttribute("type", "image/svg+xml");
@@ -159,6 +160,22 @@ export function photographerTemplate(data) {
     mediaTextDiv.appendChild(buttonLike);
     buttonLike.appendChild(likesValue);
     buttonLike.appendChild(heartSVG);
+
+    let like = false;
+    buttonLike.addEventListener("click", () => {
+      const ftrLike = document.getElementById("ftr-likes");
+      const nbrFtrLike = Number(ftrLike.textContent);
+
+      likesValue.textContent = like ? media.likes : media.likes + 1;
+
+      like = !like;
+
+      if (like) {
+        ftrLike.textContent = nbrFtrLike + 1;
+      } else {
+        ftrLike.textContent = nbrFtrLike - 1;
+      }
+    });
 
     // Retourne l'élément <a> contenant l'article avec l'image ou la vidéo
     return article;
