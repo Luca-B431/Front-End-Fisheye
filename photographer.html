@@ -13,7 +13,13 @@
   </head>
   <body id="body">
     <header role="banner">
-      <img src="assets/images/logo.png" class="logo" alt="Logo de Fisheye" />
+      <a href="index.html">
+        <img
+          src="assets/images/logo.png"
+          class="logo"
+          alt="Fisheye Home Page"
+        />
+      </a>
     </header>
 
     <!-- !! -->
@@ -44,15 +50,10 @@
             <img
               class="button-vector"
               src="public/assets/icons/vector.svg"
-              alt="icône flèche menu déroulant"
+              alt="flèche menu déroulant"
             />
           </button>
-          <div
-            id="dropdown-menu"
-            class="dropdown-menu hide"
-            role="listbox"
-            aria-hidden="true"
-          >
+          <div id="dropdown-menu" class="dropdown-menu hide" role="listbox">
             <button
               class="dropdown-button"
               type="button"
@@ -86,29 +87,40 @@
       <div class="modal">
         <header>
           <h2></h2>
-          <img id="close-cross" src="public/assets/icons/close.svg" />
+          <img
+            aria-label="Close Contact form"
+            id="close-cross"
+            src="public/assets/icons/close.svg"
+          />
         </header>
-        <form>
+        <form id="form">
           <div>
             <label for="name">Prénom :</label>
-            <input type="text" id="name" />
+            <input class="input" type="text" id="name" required />
             <label for="lastname">Nom :</label>
-            <input type="text" id="lastname" />
+            <input class="input" type="text" id="lastname" required />
             <label for="email">Email :</label>
-            <input type="email" id="email" />
+            <input class="input" type="email" id="email" required />
             <label for="message"> Votre message :</label>
-            <textarea id="message" rows="4" cols="79"> </textarea>
+            <textarea
+              class="input"
+              id="message"
+              rows="4"
+              cols="79"
+              required
+            ></textarea>
           </div>
-          <button class="contact_button">Envoyer</button>
+          <button aria-label="Send" class="contact_button">Envoyer</button>
         </form>
       </div>
     </div>
 
-    <div id="lightbox-modal" class="hide">
+    <div id="lightbox-modal" aria-label="image closeup view" class="hide">
       <div class="lightbox-modal">
         <div class="show-media">
           <svg
             class="lightbox-vector left-vector"
+            aria-label="Previous image"
             width="30"
             height="48"
             viewBox="0 0 16 11"
@@ -123,6 +135,7 @@
           <div id="media" class="media"></div>
           <svg
             class="lightbox-vector right-vector"
+            aria-label="Next image"
             width="30"
             height="48"
             viewBox="0 0 16 11"
@@ -136,6 +149,7 @@
           </svg>
           <svg
             class="close-cross"
+            aria-label="Close dialog"
             width="42"
             height="42"
             viewBox="0 0 42 42"

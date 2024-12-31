@@ -68,7 +68,7 @@ function getID() {
   return parseInt(searchParams.get("id"));
 }
 
-function isTheMediaImgOrVideo(link, id) {
+function isTheMediaImgOrVideo(link, id, mediaTitle) {
   // Récupère l'extension du fichier (jpg, jpeg, mp4, etc.)
   const extension = link.split(".").pop().toLowerCase();
   const article = document.createElement("article");
@@ -76,29 +76,33 @@ function isTheMediaImgOrVideo(link, id) {
 
   function createElementImg(link, id) {
     const imgLink = document.createElement("a");
-    imgLink.classList.add("article-link");
     const img = document.createElement("img");
     img.classList.add("article-media");
     img.setAttribute("src", `public/assets/photographers/${id}/${link}`);
-    article.appendChild(imgLink);
+    img.setAttribute("aria-label", mediaTitle);
+    imgLink.classList.add("article-link");
     imgLink.setAttribute("href", "#");
+    imgLink.setAttribute("aria-label", `${mediaTitle}, closeup view`);
     imgLink.appendChild(img);
+    article.appendChild(imgLink);
     return article;
   }
 
   function createElementVideo(link, id) {
     const videoLink = document.createElement("a");
-    videoLink.classList.add("article-link");
     const video = document.createElement("video");
     const source = document.createElement("source");
     video.classList.add("article-media");
     video.classList.add("video-click");
-    source.setAttribute("type", `video/mp4`);
+    video.setAttribute("aria-label", mediaTitle);
     video.appendChild(source);
-    source.setAttribute("src", `public/assets/photographers/${id}/${link}`);
     source.classList.add("lightbox-display");
-    article.appendChild(videoLink);
+    source.setAttribute("type", `video/mp4`);
+    source.setAttribute("src", `public/assets/photographers/${id}/${link}`);
+    videoLink.classList.add("article-link");
     videoLink.setAttribute("href", "#");
+    videoLink.setAttribute("aria-label", `${mediaTitle}, closeup view`);
+    article.appendChild(videoLink);
     videoLink.appendChild(video);
     return article;
   }
@@ -185,7 +189,7 @@ async function displayPhotographData() {
       let link = getVideoOrImg(mediaItem);
       const mediaCard = impFunction.getMediaArticle(
         mediaItem,
-        isTheMediaImgOrVideo(link, thisPhotographer.id),
+        isTheMediaImgOrVideo(link, thisPhotographer.id, mediaItem.title),
         getVideoOrImg(mediaItem)
       );
       compteurLikes += mediaItem.likes;
@@ -200,6 +204,9 @@ async function displayPhotographData() {
 function showDropdownMenu() {
   const button = document.getElementById("filter-button");
   const dropdown = document.getElementById("dropdown-menu");
+  const spanLabel = document.getElementById("filter-label");
+  let labelContent = spanLabel.textContent;
+  button.setAttribute("aria-labelledby", labelContent);
 
   button.addEventListener("click", () => {
     const hidden = dropdown.classList.toggle("hide");
@@ -222,6 +229,8 @@ function showDropdownMenu() {
 
   filterButtons.forEach((element) => {
     element.addEventListener("click", (event) => {
+      // aria conditionnel
+
       span.textContent = event.target.textContent;
       displayPhotographData();
       compteurLikes = 0;
@@ -261,6 +270,7 @@ function displayLightboxModal() {
       let titleClone = document.createElement("span");
       titleClone.textContent = title;
       titleClone.classList.add("brown");
+
       mediaDiv.appendChild(titleClone);
 
       lightboxModal.classList.remove("hide");

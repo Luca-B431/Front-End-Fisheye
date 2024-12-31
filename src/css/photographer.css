@@ -273,6 +273,7 @@ form input {
   height: 68px;
   border: none;
   border-radius: 5px;
+  padding-left: 10px;
 }
 
 /* LIGHTBOX MODAL */
@@ -329,7 +330,7 @@ form input {
 
 .close-cross {
   position: absolute;
-  top: 13%;
+  top: 3%;
   left: 85%;
   cursor: pointer;
 }

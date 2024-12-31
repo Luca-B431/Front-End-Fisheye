@@ -37,8 +37,8 @@ export function photographerTemplate(data) {
    * @returns {HTMLElement} L'élément `<a>` contenant les informations du photographe.
    */
   function getUserCardDOM() {
-    const aCArd = document.createElement("a");
     const article = document.createElement("article");
+    const aCard = document.createElement("a");
     const img = document.createElement("img");
     const div = document.createElement("div");
     img.setAttribute("src", picture);
@@ -54,17 +54,17 @@ export function photographerTemplate(data) {
     const h5 = document.createElement("h5");
     h5.textContent = `${price}€/jour`;
     h5.classList.add("grey");
-    aCArd.appendChild(article);
-    aCArd.setAttribute("href", `photographer.html?id=${id}`);
-    aCArd.setAttribute("aria-label", `Voir le profil de ${name}`);
-    article.appendChild(img);
+    article.appendChild(aCard);
+    aCard.setAttribute("href", `photographer.html?id=${id}`);
+    aCard.setAttribute("aria-label", name);
+    aCard.appendChild(img);
     article.appendChild(div);
-    div.appendChild(h2);
+    aCard.appendChild(h2);
     div.appendChild(h3);
     div.appendChild(h4);
     div.appendChild(h5);
 
-    return aCArd;
+    return article;
   }
 
   /**
@@ -83,6 +83,7 @@ export function photographerTemplate(data) {
     const contactButton = document.createElement("button");
     const closeCross = document.getElementById("close-cross");
     contactButton.setAttribute("id", "contact_button");
+    contactButton.setAttribute("aria-label", "Contact Me");
     contactButton.textContent = "Contactez-moi";
 
     contactButton.addEventListener("click", () => {
@@ -95,6 +96,7 @@ export function photographerTemplate(data) {
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
+    img.setAttribute("aria-label", name);
     img.classList.add("header-img");
 
     const h1 = document.createElement("h1");
@@ -160,6 +162,7 @@ export function photographerTemplate(data) {
     heartSVG.setAttribute("data", "assets/icons/heart.svg");
     heartSVG.setAttribute("width", "17");
     heartSVG.setAttribute("height", "18");
+    heartSVG.setAttribute("aria-label", "likes");
 
     article.appendChild(mediaTextDiv);
     article.classList.add("article");
