@@ -72,17 +72,25 @@ h1 {
   flex-direction: column;
 }
 
+.photographer_section a {
+  max-width: 200px;
+}
+
 .photographer_section div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-weight: 400;
+}
 
+.photographer_section {
   & h2 {
+    display: flex;
+    justify-content: center;
     font-size: 2.2rem;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: unset;
     text-overflow: ellipsis;
   }
 
@@ -102,6 +110,8 @@ h1 {
 .photographer_section article img {
   height: 12.5rem;
   width: 12.5rem;
+  display: flex;
+  justify-content: center;
   object-fit: cover;
   border-radius: 50%;
 }

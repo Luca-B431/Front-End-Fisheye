@@ -139,6 +139,7 @@ export function photographerTemplate(data) {
     // Crée une section pour les informations du média (titre et likes)
     const mediaTextDiv = document.createElement("div");
     mediaTextDiv.classList.add("media-textdiv");
+    mediaTextDiv.setAttribute("tabindex", "-1");
 
     const buttonLike = document.createElement("button");
     buttonLike.setAttribute("type", "button");
@@ -156,16 +157,18 @@ export function photographerTemplate(data) {
     likesValue.textContent = media.likes;
     likesValue.classList.add("brown");
     likesValue.classList.add("span-value");
-
     const heartSVG = document.createElement("object");
+    heartSVG.classList.add("heartSVG");
     heartSVG.setAttribute("type", "image/svg+xml");
     heartSVG.setAttribute("data", "assets/icons/heart.svg");
     heartSVG.setAttribute("width", "17");
     heartSVG.setAttribute("height", "18");
     heartSVG.setAttribute("aria-label", "likes");
+    heartSVG.setAttribute("tabindex", "-1");
 
     article.appendChild(mediaTextDiv);
     article.classList.add("article");
+    article.setAttribute("tabindex", "-1");
     mediaTextDiv.appendChild(titleLink);
     mediaTextDiv.appendChild(buttonLike);
     buttonLike.appendChild(likesValue);

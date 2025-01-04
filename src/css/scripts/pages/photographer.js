@@ -180,6 +180,7 @@ async function displayPhotographData() {
     // media section DOM creaction part
     const mediaSection = document.getElementById("media-section");
     mediaSection.classList.add("media-section");
+    mediaSection.setAttribute("tabindex", "-1");
 
     mediaSection.innerHTML = "";
 
@@ -204,17 +205,21 @@ async function displayPhotographData() {
 function showDropdownMenu() {
   const button = document.getElementById("filter-button");
   const dropdown = document.getElementById("dropdown-menu");
-  const spanLabel = document.getElementById("filter-label");
-  let labelContent = spanLabel.textContent;
-  button.setAttribute("aria-labelledby", labelContent);
+  const menuButtons = dropdown.querySelectorAll(".dropdown-button");
+  console.log(menuButtons);
 
+  // Bouton click event
   button.addEventListener("click", () => {
     const hidden = dropdown.classList.toggle("hide");
 
-    // ARIA
-    button.setAttribute("aria-expanded", !hidden);
+    // Si le menu est visible, mettre le focus sur le premier bouton
+    if (!hidden) {
+      // S'assurer que le premier bouton peut recevoir le focus
+      menuButtons[0].focus();
+    }
   });
 
+  // window click event
   window.addEventListener("click", (e) => {
     if (!button.contains(e.target) && !dropdown.classList.contains("hide")) {
       dropdown.classList.toggle("hide");
@@ -224,29 +229,35 @@ function showDropdownMenu() {
     }
   });
 
+  // filter buttons handling
   const filterButtons = document.querySelectorAll(".dropdown-button");
   const span = document.querySelector("#filter-button span");
 
   filterButtons.forEach((element) => {
     element.addEventListener("click", (event) => {
-      // aria conditionnel
-
       span.textContent = event.target.textContent;
       displayPhotographData();
       compteurLikes = 0;
     });
   });
+
+  // ARIA
+
+  // button labelled by the div label
+  const spanLabel = document.getElementById("filter-label");
+  let labelContent = spanLabel.textContent;
+  button.setAttribute("aria-labelledby", labelContent);
 }
 
 function displayLightboxModal() {
   const lightboxModal = document.getElementById("lightbox-modal");
+  const cross = document.querySelector(".close-cross");
   const body = document.getElementById("body");
   const mediaDiv = document.getElementById("media");
   const footer = document.getElementById("footer");
+  const articles = document.querySelectorAll("#media-section article");
 
   let index = 0;
-
-  const articles = document.querySelectorAll("#media-section article");
 
   articles.forEach((article, i) => {
     const mediaLink = article.querySelector(".article-link");
@@ -255,25 +266,30 @@ function displayLightboxModal() {
     const clickListener = (e) => {
       e.preventDefault();
 
-      // index prends l'index de l'article
+      // index var take the article index value
       index = i;
 
       const media = article.querySelector(".article-media");
       const title = mediaTitle.textContent;
+
+      // clone the article media
       let cloneMedia = media.cloneNode(true);
 
+      // add controls attribute if the clone is a video
       if (cloneMedia.tagName === "VIDEO") {
         cloneMedia.setAttribute("controls", "");
       }
 
-      mediaDiv.appendChild(cloneMedia);
       let titleClone = document.createElement("span");
       titleClone.textContent = title;
       titleClone.classList.add("brown");
 
+      mediaDiv.appendChild(cloneMedia);
       mediaDiv.appendChild(titleClone);
 
-      lightboxModal.classList.remove("hide");
+      // here is the lightbox modal display
+      // hide the footer, apply "controls" attribute on video medias and no-scroll the window behind the modal (2.1)
+      lightboxModal.showModal();
       footer.classList.add("hide");
       body.classList.add("no-scroll");
     };
@@ -282,19 +298,29 @@ function displayLightboxModal() {
     mediaTitle.addEventListener("click", clickListener);
   });
 
-  // écoute de la croix pour fermer la lightbox
-  const cross = document.querySelector(".close-cross");
+  // cross element listener for close the lightbox modal
+  // display the footer, remove "controls" attribute and window scroll enable (2.1)
   const videoControls = document.querySelector(".video-click");
   cross.addEventListener("click", () => {
-    if (lightboxModal) {
-      body.classList.remove("no-scroll");
-      lightboxModal.classList.add("hide");
-      footer.classList.remove("hide");
-      mediaDiv.innerHTML = "";
-      videoControls.removeAttribute("controls");
+    lightboxModal.close();
+    body.classList.remove("no-scroll");
+    footer.classList.remove("hide");
+    mediaDiv.innerHTML = "";
+    videoControls.removeAttribute("controls");
+  });
+
+  cross.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      lightboxModal.close();
     }
   });
 
+  lightboxModal.addEventListener("cancel", () => {
+    lightboxModal.close();
+  });
+
+  // function declaration for media change (previous or next) in the lightbox modal
+  // used for keyEvent & clickEvent
   function carouselChange(value) {
     index = (index + value + articles.length) % articles.length;
 
@@ -321,19 +347,34 @@ function displayLightboxModal() {
     }
   }
 
-  // écoute des flèches du caroussel
+  function tabKeyPress(ev, direction) {
+    if (ev.key === "Enter") {
+      carouselChange(direction);
+    }
+  }
+
   const leftArrow = document.querySelector(".left-vector");
   const rightArrow = document.querySelector(".right-vector");
 
+  // clickEvent listener
+
+  // left arrow click, display previous media
   leftArrow.addEventListener("click", () => {
     carouselChange(-1);
   });
+  leftArrow.addEventListener("keydown", (e) => {
+    tabKeyPress(e, -1);
+  });
 
+  // right arrow click, display next media
   rightArrow.addEventListener("click", () => {
     carouselChange(1);
   });
+  rightArrow.addEventListener("keydown", (e) => {
+    tabKeyPress(e, +1);
+  });
 
-  // Écoute des événements clavier
+  // keyEvent listener
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       carouselChange(-1);
@@ -343,6 +384,6 @@ function displayLightboxModal() {
   });
 }
 
-// Appelle la fonction principale pour afficher les données
+// calls
 displayPhotographData();
 showDropdownMenu();
