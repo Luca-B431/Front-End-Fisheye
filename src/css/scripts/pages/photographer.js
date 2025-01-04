@@ -312,11 +312,13 @@ function displayLightboxModal() {
   cross.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       lightboxModal.close();
+      mediaDiv.innerHTML = "";
     }
   });
 
   lightboxModal.addEventListener("cancel", () => {
     lightboxModal.close();
+    mediaDiv.innerHTML = "";
   });
 
   // function declaration for media change (previous or next) in the lightbox modal
