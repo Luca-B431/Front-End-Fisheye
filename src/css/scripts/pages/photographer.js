@@ -44,7 +44,7 @@ async function getPhotographers() {
   }
 
   // Envoie une requête pour récupérer le fichier JSON contenant les données des photographes et des médias
-  const request = await fetch("./public/data/photographers.json");
+  const request = await fetch("/data/photographers.json");
 
   // Convertit la réponse en JSON et typifie le retour
   /**

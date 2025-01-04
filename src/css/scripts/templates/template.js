@@ -29,7 +29,7 @@ import { displayModal, closeModal } from "../utils/contactForm";
 export function photographerTemplate(data) {
   const { name, portrait, city, country, tagline, price, id } = data;
 
-  const picture = `public/assets/photographers/PhotographersID/${portrait}`;
+  const picture = `/assets/photographers/PhotographersID/${portrait}`;
 
   /**
    * Génère une carte utilisateur avec les informations du photographe.
