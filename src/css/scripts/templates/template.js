@@ -160,7 +160,7 @@ export function photographerTemplate(data) {
     const heartSVG = document.createElement("object");
     heartSVG.classList.add("heartSVG");
     heartSVG.setAttribute("type", "image/svg+xml");
-    heartSVG.setAttribute("data", "assets/icons/heart.svg");
+    heartSVG.setAttribute("data", "/assets/icons/heart.svg");
     heartSVG.setAttribute("width", "17");
     heartSVG.setAttribute("height", "18");
     heartSVG.setAttribute("aria-label", "likes");

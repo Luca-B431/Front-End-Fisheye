@@ -78,7 +78,7 @@ function isTheMediaImgOrVideo(link, id, mediaTitle) {
     const imgLink = document.createElement("a");
     const img = document.createElement("img");
     img.classList.add("article-media");
-    img.setAttribute("src", `public/assets/photographers/${id}/${link}`);
+    img.setAttribute("src", `/assets/photographers/${id}/${link}`);
     img.setAttribute("aria-label", mediaTitle);
     imgLink.classList.add("article-link");
     imgLink.setAttribute("href", "#");
@@ -98,7 +98,7 @@ function isTheMediaImgOrVideo(link, id, mediaTitle) {
     video.appendChild(source);
     source.classList.add("lightbox-display");
     source.setAttribute("type", `video/mp4`);
-    source.setAttribute("src", `public/assets/photographers/${id}/${link}`);
+    source.setAttribute("src", `/assets/photographers/${id}/${link}`);
     videoLink.classList.add("article-link");
     videoLink.setAttribute("href", "#");
     videoLink.setAttribute("aria-label", `${mediaTitle}, closeup view`);
