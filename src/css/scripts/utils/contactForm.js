@@ -7,6 +7,7 @@ export function displayModal(name) {
   const h2 = document.querySelector(".modal h2");
   const footer = document.getElementById("footer");
 
+  // showModal method on <dialog>
   modal.showModal();
   h2.textContent = `Contactez-moi ${name}`;
   h2.classList.add("modal-title");
@@ -14,7 +15,6 @@ export function displayModal(name) {
   footer.classList.add("hide");
 
   // ARIA
-
   inputs.forEach((input) => {
     const label = document.querySelector(`label[for="${input.id}"]`); // Sélectionner le label correspondant par l'attribut `for`
     if (label) {
@@ -23,7 +23,6 @@ export function displayModal(name) {
     }
   });
 
-  console.log(form);
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -76,6 +75,7 @@ export function displayModal(name) {
     }
   });
 
+  // ARIA
   let content = h2.textContent;
   form.setAttribute("aria-labelledby", content);
 }
@@ -85,6 +85,7 @@ export function closeModal() {
   const footer = document.getElementById("footer");
 
   modal.close();
+  form.reset();
   body.classList.remove("no-scroll");
   footer.classList.remove("hide");
 }

@@ -1,54 +1,40 @@
 import { photographerTemplate } from "../templates/template";
 
-/**
- * Fonction asynchrone pour récupérer les données des photographes depuis un fichier JSON.
- * @async
- * @function getPhotographers
- * @returns {Promise<Object>} - Retourne une promesse résolue avec les données des photographes.
- */
+// asynchronous function to fetch photographers data from a json file
 async function getPhotographers() {
-  // Envoie une requête pour récupérer le fichier JSON contenant les données des photographes
+  // sends a request to fetch the json file containing photographers data
   const request = await fetch("/data/photographers.json");
 
-  // Convertit la réponse en JSON
+  // converts the response to json
   const photographers = await request.json();
 
   return photographers;
 }
 
-/**
- * Affiche les données des photographes sur la page web.
- * @async
- * @function displayData
- * @param {Array} photographers - Tableau des données des photographes.
- */
+// displays photographers data on the web page
 async function displayData(photographers) {
-  // Sélectionne la section où les cartes des photographes seront ajoutées
+  // selects the section where photographers' cards will be added
   const photographersSection = document.querySelector(".photographer_section");
 
-  // Parcourt chaque photographe et crée une carte pour lui
+  // iterates over each photographer and creates a card
   photographers.forEach((photographer) => {
-    // Crée un modèle de carte pour chaque photographe
+    // creates a card template for each photographer
     const photographerModel = photographerTemplate(photographer);
 
-    // Génère l'élément DOM de la carte du photographe
+    // generates the dom element for the photographer's card
     const userCardDOM = photographerModel.getUserCardDOM();
 
-    // Ajoute la carte à la section des photographes
+    // appends the card to the photographers section
     photographersSection.appendChild(userCardDOM);
   });
 }
 
-/**
- * Initialise l'application en récupérant et affichant les données des photographes.
- * @async
- * @function init
- */
+// initializes the application by fetching and displaying photographers data
 async function init() {
-  // Récupère les données des photographes depuis le fichier JSON
+  // fetches photographers data from the json file
   const { photographers } = await getPhotographers();
 
-  // Affiche les données des photographes sur la page
+  // displays the photographers data on the page
   displayData(photographers);
 }
 

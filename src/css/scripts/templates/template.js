@@ -2,29 +2,27 @@ import { displayModal, closeModal } from "../utils/contactForm";
 
 /**
  * @typedef {Object} Media
- * @property {number} id - L'ID du média.
- * @property {number} photographerId - L'ID du photographe associé à ce média.
- * @property {string} title - Le titre du média.
- * @property {string} image - Le nom du fichier image du média.
- * @property {number} likes - Le nombre de likes du média.
- * @property {string} date - La date de publication du média.
- * @property {number} price - Le prix du média.
+ * @property {number} id - The media's ID.
+ * @property {number} photographerId - The photographer's ID associated with this media.
+ * @property {string} title - The media's title.
+ * @property {string} image - The media's image file name.
+ * @property {number} likes - The number of likes for the media.
+ * @property {string} date - The media's publication date.
+ * @property {number} price - The media's price.
  */
 
 /**
- *
- *
- * Génère un modèle pour un photographe donné.
+ * Generates a template for a given photographer.
  * @function photographerTemplate
- * @param {Object} data - Les données d'un photographe.
- * @param {string} data.name - Nom du photographe.
- * @param {string} data.portrait - Nom du fichier image du portrait.
- * @param {string} data.city - Ville du photographe.
- * @param {string} data.country - Pays du photographe.
- * @param {string} data.tagline - Slogan ou description courte du photographe.
- * @param {number} data.price - Tarif journalier du photographe.
- * @param {number} data.id - Identifiant unique du photographe.
- * @returns {Object} Un objet contenant des méthodes pour générer des éléments DOM.
+ * @param {Object} data - Photographer data.
+ * @param {string} data.name - The photographer's name.
+ * @param {string} data.portrait - The photographer's portrait image file name.
+ * @param {string} data.city - The photographer's city.
+ * @param {string} data.country - The photographer's country.
+ * @param {string} data.tagline - A tagline or brief description of the photographer.
+ * @param {number} data.price - The photographer's daily rate.
+ * @param {number} data.id - A unique ID for the photographer.
+ * @returns {Object} An object containing methods to generate DOM elements.
  */
 export function photographerTemplate(data) {
   const { name, portrait, city, country, tagline, price, id } = data;
@@ -32,9 +30,9 @@ export function photographerTemplate(data) {
   const picture = `/assets/photographers/PhotographersID/${portrait}`;
 
   /**
-   * Génère une carte utilisateur avec les informations du photographe.
+   * Generates a user card with photographer information.
    * @function
-   * @returns {HTMLElement} L'élément `<a>` contenant les informations du photographe.
+   * @returns {HTMLElement} The `<a>` element containing the photographer's information.
    */
   function getUserCardDOM() {
     const article = document.createElement("article");
@@ -52,7 +50,7 @@ export function photographerTemplate(data) {
     h4.textContent = tagline;
     h4.classList.add("black");
     const h5 = document.createElement("h5");
-    h5.textContent = `${price}€/jour`;
+    h5.textContent = `${price}€/day`;
     h5.classList.add("grey");
     article.appendChild(aCard);
     aCard.setAttribute("href", `photographer.html?id=${id}`);
@@ -68,9 +66,9 @@ export function photographerTemplate(data) {
   }
 
   /**
-   * Génère l'en-tête pour le profil du photographe.
+   * Generates the header for the photographer's profile.
    * @function
-   * @returns {HTMLElement} L'élément `<section>` contenant l'en-tête du profil.
+   * @returns {HTMLElement} The `<section>` element containing the profile header.
    */
   function getHeaderCardDOM() {
     const photographHeader = document.getElementById("photograph-header");
@@ -79,11 +77,10 @@ export function photographerTemplate(data) {
 
     const textDiv = document.createElement("div");
     textDiv.classList.add("text-div");
-
     const contactButton = document.createElement("button");
     const closeCross = document.getElementById("close-cross");
     contactButton.setAttribute("id", "contact_button");
-    contactButton.setAttribute("aria-label", "Contact Me");
+    contactButton.setAttribute("aria-label", "Contactez moi");
     contactButton.textContent = "Contactez-moi";
 
     contactButton.addEventListener("click", () => {
@@ -120,23 +117,23 @@ export function photographerTemplate(data) {
   }
 
   /**
-   * Génère un article de média (image ou vidéo) et l'ajoute au DOM.
+   * Generates a media article (image or video) and adds it to the DOM.
    *
-   * @param {Object} media - L'objet représentant le média.
-   * @param {string} media.image - Le nom de l'image ou vidéo du média.
-   * @param {string} media.title - Le titre du média.
-   * @param {number} media.likes - Le nombre de likes du média.
-   * @returns {HTMLElement} - Un élément `<a>` contenant l'article avec l'image ou la vidéo.
+   * @param {Object} media - The media object.
+   * @param {string} media.image - The media's image or video file name.
+   * @param {string} media.title - The media's title.
+   * @param {number} media.likes - The number of likes for the media.
+   * @returns {HTMLElement} - An `<a>` element containing the article with the image or video.
    */
   function getMediaArticle(media, article) {
     /**
-     * Fonction pour déterminer si le lien fourni est une image ou une vidéo.
+     * Function to determine if the provided link is an image or video.
      *
-     * @param {string} link - Le lien du fichier média (image ou vidéo).
-     * @returns {string} - Le HTML pour l'élément <img> ou <video> en fonction de l'extension du fichier.
+     * @param {string} link - The media file link (image or video).
+     * @returns {string} - The HTML for the <img> or <video> element based on the file extension.
      */
 
-    // Crée une section pour les informations du média (titre et likes)
+    // Creates a section for the media information (title and likes)
     const mediaTextDiv = document.createElement("div");
     mediaTextDiv.classList.add("media-textdiv");
     mediaTextDiv.setAttribute("tabindex", "-1");
@@ -145,14 +142,14 @@ export function photographerTemplate(data) {
     buttonLike.setAttribute("type", "button");
     buttonLike.classList.add("button-like");
 
-    // Crée un titre h2 pour afficher le titre du média
+    // Creates an <a> element for the media title
     const titleLink = document.createElement("a");
     titleLink.setAttribute("href", "#");
     titleLink.textContent = media.title;
     titleLink.classList.add("brown");
     titleLink.classList.add("media-title");
 
-    // Crée un sous-titre h3 pour afficher le nombr de likes du média
+    // Creates an <span> for displaying the number of likes
     let likesValue = document.createElement("span");
     likesValue.textContent = media.likes;
     likesValue.classList.add("brown");
@@ -175,14 +172,18 @@ export function photographerTemplate(data) {
     buttonLike.appendChild(heartSVG);
 
     let like = false;
+
+    // listener for the like events
     buttonLike.addEventListener("click", () => {
       const ftrLike = document.getElementById("ftr-likes");
       const nbrFtrLike = Number(ftrLike.textContent);
 
+      // if no like display normal likes else +1
       likesValue.textContent = like ? media.likes : media.likes + 1;
 
       like = !like;
 
+      // if like var truthy so the like button is pressed = allLikes +1 in footer
       if (like) {
         ftrLike.textContent = nbrFtrLike + 1;
       } else {
@@ -190,7 +191,7 @@ export function photographerTemplate(data) {
       }
     });
 
-    // Retourne l'élément <a> contenant l'article avec l'image ou la vidéo
+    // Returns the <a> element containing the article with the image or video
     return article;
   }
 
