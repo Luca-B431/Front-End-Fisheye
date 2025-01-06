@@ -299,9 +299,9 @@ function displayLightboxModal() {
 
   // keyevent listener
   document.addEventListener("keydown", (e) => {
-    if (e.key === "arrowleft") {
+    if (e.key === "ArrowLeft") {
       carouselChange(-1);
-    } else if (e.key === "arrowright") {
+    } else if (e.key === "ArrowRight") {
       carouselChange(1);
     }
   });
